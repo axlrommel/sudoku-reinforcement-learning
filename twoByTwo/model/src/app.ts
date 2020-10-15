@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import express from 'express'
 import cors from 'cors'
+import { redis } from './constants';
 import { problems, answers } from './data/problems';
 const jsonParser = bodyParser.json()
 
@@ -9,6 +10,17 @@ app.use(cors())
 app.get('/', (req, resp) => {
   const index = Math.floor(Math.random() * problems.length - 1);
   resp.send({ problem: problems[index], solution: answers[index] });
+});
+app.post('/entry', jsonParser, async (req, resp) => {
+  await redis.sadd('entries', JSON.stringify(req.body))
+  resp.send({ status: 'ok' })
+});
+
+app.post('/hint', jsonParser, (req, resp) => {
+  resp.send({ hint: 0 });
+});
+app.post('/add', jsonParser, (req, resp) => {
+  resp.send({ status: 'ok' });
 });
 app.listen(80);
 export default app;
