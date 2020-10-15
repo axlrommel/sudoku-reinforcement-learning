@@ -1,18 +1,20 @@
 import { Grid } from "@material-ui/core";
+import { range } from "ramda";
 import React from "react";
 import { TileValue } from "../types/sudokuGame";
 import Tile from "./Tile";
 
 interface tileProps {
-  board: [[number, number, number, number], [number, number, number, number], [number, number, number, number], [number, number, number, number]],
+  board: number[][],
   row: number,
   onChange: React.Dispatch<TileValue>
 }
 
 const TileRow = (props: tileProps) => {
+  const sudokuSize = props.board ? props.board[0].length : 0;
   return (
     <Grid container >
-      {[0, 1, 2, 3].map(c => {
+      {range(0, sudokuSize).map(c => {
         return (
           <Tile
             key={`tile-${props.row}-${c}`}

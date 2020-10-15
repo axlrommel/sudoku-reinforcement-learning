@@ -1,6 +1,6 @@
 export class SudokuGame {
-  problem?: [[number, number, number, number], [number, number, number, number], [number, number, number, number], [number, number, number, number]];
-  solution?: [[number, number, number, number], [number, number, number, number], [number, number, number, number], [number, number, number, number]];
+  problem?: number[][];
+  solution?: number[][];
 
   constructor(props?: Partial<SudokuGame>) {
     props = props || {};

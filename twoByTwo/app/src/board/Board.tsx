@@ -4,6 +4,7 @@ import { getBoard, addToModel } from "./utils";
 import { Grid } from "@material-ui/core";
 import TileRow from "./TileRow";
 import { useStyles } from './styles';
+import { range } from 'ramda';
 
 const Board = () => {
   const classes = useStyles();
@@ -38,7 +39,6 @@ const Board = () => {
           }
         });
         setCurrentBoard({
-          // @ts-ignore
           problem: newProblem,
           solution: currentBoard.solution
         })
@@ -49,11 +49,12 @@ const Board = () => {
     }
   }, [lastInput, currentBoard])
 
+  const sudokuSize = (currentBoard?.problem && currentBoard?.problem[0]?.length) ?? 0;
   return (
     <div className={classes.root}>
       {currentBoard?.problem && <Grid>
         {
-          [0, 1, 2, 3].map(r => {
+          range(0, sudokuSize).map(r => {
             return (
               <TileRow
                 key={`tilerow-${r}`}
