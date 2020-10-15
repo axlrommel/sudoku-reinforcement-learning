@@ -4,7 +4,8 @@
   "description": "recaculates model and returns sudoku data",
   "main": "src/app.ts",
   "scripts": {
-    "start": "ts-node ./src/app.ts"
+    "start": "ts-node ./src/app.ts",
+    "redis:start": "redis-server /usr/local/Cellar/redis/6.0.1/.bottle/etc/redis.conf"
   },
   "keywords": [
     "sudoku",
