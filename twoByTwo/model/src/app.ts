@@ -16,11 +16,9 @@ app.post('/entry', jsonParser, async (req, resp) => {
   resp.send({ status: 'ok' })
 });
 
-app.post('/hint', jsonParser, (req, resp) => {
-  resp.send({ hint: 0 });
-});
-app.post('/add', jsonParser, (req, resp) => {
+app.post('/runModel', jsonParser, (req, resp) => {
   resp.send({ status: 'ok' });
 });
+
 app.listen(80);
 export default app;
