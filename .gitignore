@@ -1,3 +1,4 @@
 /twoByTwo/app/node_modules
 /twoByTwo/model/node_modules
 .vscode
+twoByTwo/model/dump.rdb

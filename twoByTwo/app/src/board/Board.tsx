@@ -1,91 +1,87 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import { SudokuResponse } from "../types/sudokuResponse";
-import { getBoard } from "../utils/getBoard";
-import Tile from "./Tile";
+import { getBoard, getHint } from "./utils";
+import { Button, Grid } from "@material-ui/core";
+import TileRow from "./TileRow";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
       padding: theme.spacing(2)
+    },
+    buttonText: {
+      color: theme.palette.secondary.dark
+    },
+    container: {
+      margin: 10,
+      borderSpacing: 1
     }
   }),
 );
 
 const Board = () => {
   const classes = useStyles();
-  const [board, setBoard]: [
+
+  const [initialBoard, setInitialBoard]: [
     SudokuResponse,
     React.Dispatch<SudokuResponse>
   ] = useState({});
+  const [currentBoard, setCurrentBoard]: [
+    SudokuResponse,
+    React.Dispatch<SudokuResponse>
+  ] = useState({});
+  const [lastInput, setLastInput]: [
+    string, React.Dispatch<string>
+  ] = useState("");
 
   useEffect(() => {
-    getBoard(setBoard)
+    getBoard(setInitialBoard);
   }, []);
+
+  useEffect(() => {
+    setCurrentBoard(initialBoard);
+  }, [initialBoard, setCurrentBoard])
+
+  const clickedGetHint = () => {
+    getHint(currentBoard, parseInt(lastInput?.split('-')[1]),
+      parseInt(lastInput?.split('-')[2]))
+  };
+
+  const clickedCheck = () => {
+
+  };
 
   return (
     <div className={classes.root}>
-      {board?.problem && <Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={1}>
-            <Tile value={board.problem[0][0]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[0][1]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[0][2]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[0][3]} />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={1}>
-            <Tile value={board.problem[1][0]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[1][1]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[1][2]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[1][3]} />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={1}>
-            <Tile value={board.problem[2][0]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[2][1]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[2][2]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[2][3]} />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={1}>
-            <Tile value={board.problem[3][0]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[3][1]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[3][2]} />
-          </Grid>
-          <Grid item xs={1}>
-            <Tile value={board.problem[3][3]} />
-          </Grid>
-        </Grid>
+      {currentBoard?.problem && <Grid>
+        {
+          [0, 1, 2, 3].map(r => {
+            return (
+              <TileRow
+                key={`tilerow-${r}`}
+                onBlur={setLastInput}
+                row={r}
+                board={currentBoard.problem!}
+              />
+            )
+          }
+          )}
       </Grid>}
-    </div>
+      <div>
+        <Button
+          className={classes.buttonText}
+          onClick={clickedGetHint}>
+          Hint
+      </Button>
+        <Button
+          className={classes.buttonText}
+          onClick={clickedCheck} >
+          Check
+      </Button>
+      </div>
+    </div >
   );
 }
 

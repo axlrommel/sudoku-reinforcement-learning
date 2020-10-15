@@ -1,31 +1,41 @@
-import { Paper, TextField } from "@material-ui/core";
+import { Grid, Paper, TextField } from "@material-ui/core";
 import React from "react";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
-      padding: theme.spacing(2),
+      padding: 20,
       textAlign: 'center',
-      color: theme.palette.text.secondary,
+      backgroundColor: 'aqua'
     },
     textField: {
       textAlign: 'center',
-      color: theme.palette.text.secondary,
+      border: 2,
+      borderColor: '#212121',
+      backgroundColor: 'aqua'
     }
   }),
 );
 
 interface tileProps {
-  value: number
+  board: [[number, number, number, number], [number, number, number, number], [number, number, number, number], [number, number, number, number]],
+  row: number,
+  column: number,
+  onBlur: React.Dispatch<string>;
 }
 
 const Tile = (props: tileProps) => {
   const classes = useStyles();
-
-  return props.value === 0
-    ? <TextField className={classes.textField} variant="outlined">{props.value}</TextField>
-    : <Paper className={classes.paper}>{props.value}</Paper>
+  const id = `input-${props.row}-${props.column}`;
+  const val = props.board[props.row][props.column]
+  return (
+    <Grid item xs={1}>
+      {val === 0
+        ? <TextField id={id} onBlur={() => props.onBlur(id)} className={classes.textField} variant="outlined">{val}</TextField>
+        : <Paper className={classes.paper}>{val}</Paper>
+      }
+    </Grid>)
 };
 
 export default Tile;
