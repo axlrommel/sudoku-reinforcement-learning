@@ -1,28 +1,13 @@
 import { Grid, Paper, TextField } from "@material-ui/core";
 import React from "react";
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    paper: {
-      padding: 20,
-      textAlign: 'center',
-      backgroundColor: 'aqua'
-    },
-    textField: {
-      textAlign: 'center',
-      border: 2,
-      borderColor: '#212121',
-      backgroundColor: 'aqua'
-    }
-  }),
-);
+import { TileValue } from "../types/sudokuGame";
+import { useStyles } from './styles';
 
 interface tileProps {
   board: [[number, number, number, number], [number, number, number, number], [number, number, number, number], [number, number, number, number]],
   row: number,
   column: number,
-  onBlur: React.Dispatch<string>;
+  onChange: React.Dispatch<TileValue>
 }
 
 const Tile = (props: tileProps) => {
@@ -32,7 +17,11 @@ const Tile = (props: tileProps) => {
   return (
     <Grid item xs={1}>
       {val === 0
-        ? <TextField id={id} onBlur={() => props.onBlur(id)} className={classes.textField} variant="outlined">{val}</TextField>
+        ? <TextField
+          id={id}
+          onChange={(event) => props.onChange({ row: props.row, column: props.column, value: parseInt(event.target.value) })}
+          className={classes.textField}
+          variant="outlined">{val}</TextField>
         : <Paper className={classes.paper}>{val}</Paper>
       }
     </Grid>)

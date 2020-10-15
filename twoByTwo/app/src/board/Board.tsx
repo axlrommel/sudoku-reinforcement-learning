@@ -1,57 +1,53 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { SudokuResponse } from "../types/sudokuResponse";
-import { getBoard, getHint } from "./utils";
-import { Button, Grid } from "@material-ui/core";
+import { SudokuGame, TileValue } from "../types/sudokuGame";
+import { getBoard, addToModel } from "./utils";
+import { Grid } from "@material-ui/core";
 import TileRow from "./TileRow";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      padding: theme.spacing(2)
-    },
-    buttonText: {
-      color: theme.palette.secondary.dark
-    },
-    container: {
-      margin: 10,
-      borderSpacing: 1
-    }
-  }),
-);
+import { useStyles } from './styles';
 
 const Board = () => {
   const classes = useStyles();
-
-  const [initialBoard, setInitialBoard]: [
-    SudokuResponse,
-    React.Dispatch<SudokuResponse>
-  ] = useState({});
   const [currentBoard, setCurrentBoard]: [
-    SudokuResponse,
-    React.Dispatch<SudokuResponse>
-  ] = useState({});
+    SudokuGame,
+    React.Dispatch<SudokuGame>
+  ] = useState(new SudokuGame());
+
   const [lastInput, setLastInput]: [
-    string, React.Dispatch<string>
-  ] = useState("");
+    TileValue, React.Dispatch<TileValue>
+  ] = useState(new TileValue());
 
   useEffect(() => {
-    getBoard(setInitialBoard);
+    getBoard(setCurrentBoard);
   }, []);
 
   useEffect(() => {
-    setCurrentBoard(initialBoard);
-  }, [initialBoard, setCurrentBoard])
-
-  const clickedGetHint = () => {
-    getHint(currentBoard, parseInt(lastInput?.split('-')[1]),
-      parseInt(lastInput?.split('-')[2]))
-  };
-
-  const clickedCheck = () => {
-
-  };
+    if (lastInput?.value > 0) {
+      const { row, column, value } = lastInput;
+      if (currentBoard?.solution[row][column] === value) {
+        addToModel(currentBoard.problem, row, column, value)
+        const newProblem = currentBoard.problem.map((r, rIndex) => {
+          if (rIndex !== row)
+            return r;
+          else {
+            return r.map((c, cIndex) => {
+              if (cIndex !== column)
+                return c;
+              else
+                return value;
+            })
+          }
+        });
+        setCurrentBoard({
+          // @ts-ignore
+          problem: newProblem,
+          solution: currentBoard.solution
+        })
+        setLastInput(new TileValue());
+      } else {
+        console.log('bad one')
+      }
+    }
+  }, [lastInput, currentBoard])
 
   return (
     <div className={classes.root}>
@@ -61,26 +57,14 @@ const Board = () => {
             return (
               <TileRow
                 key={`tilerow-${r}`}
-                onBlur={setLastInput}
+                onChange={setLastInput}
                 row={r}
-                board={currentBoard.problem!}
+                board={currentBoard.problem}
               />
             )
           }
           )}
       </Grid>}
-      <div>
-        <Button
-          className={classes.buttonText}
-          onClick={clickedGetHint}>
-          Hint
-      </Button>
-        <Button
-          className={classes.buttonText}
-          onClick={clickedCheck} >
-          Check
-      </Button>
-      </div>
     </div >
   );
 }
