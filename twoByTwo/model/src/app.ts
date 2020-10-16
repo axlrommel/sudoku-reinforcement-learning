@@ -3,6 +3,8 @@ import express from 'express'
 import cors from 'cors'
 import { redis } from './constants';
 import { problems, answers } from './data/problems';
+import { modelCreator } from "./model/modelCreator";
+import { modelRunner } from "./model/modelRunner";
 const jsonParser = bodyParser.json()
 
 const app = express()
@@ -16,9 +18,7 @@ app.post('/entry', jsonParser, async (req, resp) => {
   resp.send({ status: 'ok' })
 });
 
-app.post('/runModel', jsonParser, (req, resp) => {
-  resp.send({ status: 'ok' });
-});
+app.post('/find', jsonParser, modelCreator, modelRunner);
 
 app.listen(80);
 export default app;

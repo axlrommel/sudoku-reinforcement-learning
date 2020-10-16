@@ -24,5 +24,6 @@ export interface Observation {
   sumInRow: number,
   numberInRow: number,
   sumInColumn: number,
-  numberInColumn: number
+  numberInColumn: number,
+  value: number
 }
