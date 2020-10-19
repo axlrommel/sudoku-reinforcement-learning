@@ -1,9 +1,10 @@
 import { redis } from "../constants";
-import { getDTClassifier, getRFClassifier } from "./classifier";
+import { getRFClassifier } from "./classifier";
 import { buildObservationFromEntry, duplicateBySwitchingRowsAndCols, fromStringToObjects } from "./transformations";
 import { Entry, Observation } from "./types";
 
-export const modelCreator = async (req, resp, next) => {
+export const modelCreator = async (req: any, resp: any, next: any) => {
+  console.log('creating model')
   const stringEntries = await redis.smembers('entries');
   const entries: Entry[] = stringEntries.map((s: string) => fromStringToObjects(s));
   const trueObservations: Observation[] = entries.map(
@@ -17,9 +18,7 @@ export const modelCreator = async (req, resp, next) => {
     Object.values(o)
   );
   const allRows = trueRows.concat(addedRows);
-  const dTClassifier = getDTClassifier(allRows);
   const rFClassifier = getRFClassifier(allRows);
-  req.dtmodel = dTClassifier;
   req.rfmodel = rFClassifier;
   next();
 }
