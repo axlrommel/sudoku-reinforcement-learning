@@ -1,5 +1,13 @@
-import { Entry, Observation } from "./types";
-import { addNumbersInQuadrant, getNumberInBoard, numberInQuadrant, numberOfNumbersInColumn, numberOfNumbersInRow, sumOfNumbersInColumn, sumOfNumbersInRow } from "./utils";
+import { Entry, Observation } from './types';
+import {
+  addNumbersInQuadrant,
+  getNumberInBoard,
+  numberInQuadrant,
+  numberOfNumbersInColumn,
+  numberOfNumbersInRow,
+  sumOfNumbersInColumn,
+  sumOfNumbersInRow,
+} from './utils';
 
 export const fromStringToObjects = (blob: string): Entry => {
   const { col, row, value, board } = JSON.parse(blob);
@@ -8,9 +16,9 @@ export const fromStringToObjects = (blob: string): Entry => {
     tileValue: {
       col,
       row,
-      value
-    }
-  }
+      value,
+    },
+  };
 };
 
 export const buildObservationFromEntry = (entry: Entry): Observation => ({
@@ -24,8 +32,8 @@ export const buildObservationFromEntry = (entry: Entry): Observation => ({
   numberInRow: numberOfNumbersInRow(entry.board, entry.tileValue.row),
   sumInColumn: sumOfNumbersInColumn(entry.board, entry.tileValue.col),
   numberInColumn: numberOfNumbersInColumn(entry.board, entry.tileValue.col),
-  value: entry.tileValue.value
-})
+  value: entry.tileValue.value,
+});
 
 export const duplicateBySwitchingRowsAndCols = (observation: Observation): Observation => ({
   numberOfOnesInBoard: observation.numberOfOnesInBoard,
@@ -38,5 +46,5 @@ export const duplicateBySwitchingRowsAndCols = (observation: Observation): Obser
   numberInRow: observation.numberInColumn,
   sumInColumn: observation.sumInRow,
   numberInColumn: observation.numberInRow,
-  value: observation.value
-})
+  value: observation.value,
+});
