@@ -31,7 +31,7 @@ app.post('/find', jsonParser, async (req, resp, next) => {
 
 app.get('/generate', modelCreator, async (req, resp) => {
   //@ts-ignore
-  await redis.set('rFClassifier', req.rfmodel);
+  await redis.set('rFClassifier', JSON.stringify(req.rfmodel));
   console.log('update to classifier complete')
   resp.send({ status: 'ok' })
 });
