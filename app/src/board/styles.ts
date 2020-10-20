@@ -8,6 +8,17 @@ export const useStyles = makeStyles((theme) => ({
   buttonText: {
     color: theme.palette.secondary.dark,
   },
+  button: {
+    zIndex: 1,
+    position: 'absolute',
+    paddingTop: 2,
+    color: 'gray',
+    textAlign: 'center'
+  },
+  iconButton: {
+    fontSize: 'medium',
+    color: 'gray'
+  },
   container: {
     margin: 10,
     borderSpacing: 1,

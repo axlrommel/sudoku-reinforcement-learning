@@ -8,6 +8,8 @@ interface tileProps {
   board: number[][];
   row: number;
   onChange: React.Dispatch<TileValue>;
+  getHint: React.Dispatch<TileValue>;
+  hintResult?: TileValue;
 }
 
 const TileRow = (props: tileProps) => {
@@ -19,6 +21,8 @@ const TileRow = (props: tileProps) => {
           <Tile
             key={`tile-${props.row}-${c}`}
             onChange={props.onChange}
+            getHint={props.getHint}
+            hintResult={props.hintResult}
             row={props.row}
             column={c}
             board={props.board}

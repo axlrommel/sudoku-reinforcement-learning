@@ -10,7 +10,7 @@ export class SudokuGame {
 
 export class TileValue {
   row?: number;
-  column?: number;
+  col?: number;
   value?: number;
 
   constructor(props?: Partial<TileValue>) {
