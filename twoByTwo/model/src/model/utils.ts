@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { equals, flatten, pipe, filter, length, reject, sum, map, nth } from 'ramda';
+import { equals, flatten, pipe, filter, length, reject, sum, map, nth, find } from 'ramda';
 import { TileValue, FIRST_QUADRANT, SECOND_QUADRANT, THIRD_QUADRANT, FOURTH_QUADRANT } from './types';
 
 export const getQuadrant = (row: number, column: number): number => {
@@ -41,3 +41,20 @@ export const sumOfNumbersInColumn = (board: number[][], column: number): number 
 
 export const getNumberInBoard = (board: number[][], numberToFind: number): number =>
   pipe(flatten, filter(equals(numberToFind)), length)(board);
+
+export const getNumberInRow = (board: number[][], row: number, numberToFind: number): number => {
+  return board[row].find((n: number) => n === numberToFind) ? 1 : 0;
+}
+
+export const getNumberInColumn = (board: number[][], column: number, numberToFind: number): number => {
+  return board.map((row: number[]) => row[column]).flat().find((n: number) => n === numberToFind) ? 1 : 0;
+}
+
+export const getNumberInRowAndColumn = (board: number[][], tile: TileValue, numberToFind: number): number => {
+  return getNumberInRow(board, tile.row, numberToFind) + getNumberInColumn(board, tile.col, numberToFind)
+}
+
+export const getNumberInGrouping = (board: number[][], tile: TileValue, numberToFind: number): number => {
+  const quadrant = getQuadrant(tile.row, tile.col);
+  return find(equals(numberToFind), getNumbersInQuadrant(board, quadrant)) ? 1 : 0;
+}

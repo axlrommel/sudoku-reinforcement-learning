@@ -1,12 +1,8 @@
 import { Entry, Observation } from './types';
 import {
-  addNumbersInQuadrant,
   getNumberInBoard,
-  numberInQuadrant,
-  numberOfNumbersInColumn,
-  numberOfNumbersInRow,
-  sumOfNumbersInColumn,
-  sumOfNumbersInRow,
+  getNumberInGrouping,
+  getNumberInRowAndColumn,
 } from './utils';
 
 export const fromStringToObjects = (blob: string): Entry => {
@@ -26,25 +22,13 @@ export const buildObservationFromEntry = (entry: Entry): Observation => ({
   numberOfTwosInBoard: getNumberInBoard(entry.board, 2),
   numberOfThreesInBoard: getNumberInBoard(entry.board, 3),
   numberOfFoursInBoard: getNumberInBoard(entry.board, 4),
-  sumInQuadrant: addNumbersInQuadrant(entry.board, entry.tileValue),
-  numberInQuadrant: numberInQuadrant(entry.board, entry.tileValue),
-  sumInRow: sumOfNumbersInRow(entry.board, entry.tileValue.row),
-  numberInRow: numberOfNumbersInRow(entry.board, entry.tileValue.row),
-  sumInColumn: sumOfNumbersInColumn(entry.board, entry.tileValue.col),
-  numberInColumn: numberOfNumbersInColumn(entry.board, entry.tileValue.col),
+  numberOfOnesInRowAndCol: getNumberInRowAndColumn(entry.board, entry.tileValue, 1),
+  numberOfTwosInRowAndCol: getNumberInRowAndColumn(entry.board, entry.tileValue, 2),
+  numberOfThreesInRowAndCol: getNumberInRowAndColumn(entry.board, entry.tileValue, 3),
+  numberOfFoursInRowAndCol: getNumberInRowAndColumn(entry.board, entry.tileValue, 4),
+  numberOfOnesInGrouping: getNumberInGrouping(entry.board, entry.tileValue, 1),
+  numberOfTwosInGrouping: getNumberInGrouping(entry.board, entry.tileValue, 2),
+  numberOfThreesInGrouping: getNumberInGrouping(entry.board, entry.tileValue, 3),
+  numberOfFoursInGrouping: getNumberInGrouping(entry.board, entry.tileValue, 4),
   value: entry.tileValue.value,
-});
-
-export const duplicateBySwitchingRowsAndCols = (observation: Observation): Observation => ({
-  numberOfOnesInBoard: observation.numberOfOnesInBoard,
-  numberOfTwosInBoard: observation.numberOfTwosInBoard,
-  numberOfThreesInBoard: observation.numberOfThreesInBoard,
-  numberOfFoursInBoard: observation.numberOfFoursInBoard,
-  sumInQuadrant: observation.sumInQuadrant,
-  numberInQuadrant: observation.numberInQuadrant,
-  sumInRow: observation.sumInColumn,
-  numberInRow: observation.numberInColumn,
-  sumInColumn: observation.sumInRow,
-  numberInColumn: observation.numberInRow,
-  value: observation.value,
 });

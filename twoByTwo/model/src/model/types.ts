@@ -19,11 +19,13 @@ export interface Observation {
   numberOfTwosInBoard: number;
   numberOfThreesInBoard: number;
   numberOfFoursInBoard: number;
-  sumInQuadrant: number;
-  numberInQuadrant: number;
-  sumInRow: number;
-  numberInRow: number;
-  sumInColumn: number;
-  numberInColumn: number;
+  numberOfOnesInRowAndCol: number;
+  numberOfTwosInRowAndCol: number;
+  numberOfThreesInRowAndCol: number;
+  numberOfFoursInRowAndCol: number;
+  numberOfOnesInGrouping: number;
+  numberOfTwosInGrouping: number;
+  numberOfThreesInGrouping: number;
+  numberOfFoursInGrouping: number;
   value: number;
 }

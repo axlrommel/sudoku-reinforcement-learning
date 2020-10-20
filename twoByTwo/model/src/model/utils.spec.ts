@@ -1,3 +1,4 @@
+import { TileValue } from './types';
 import {
   addNumbersInQuadrant,
   getNumberInBoard,
@@ -6,6 +7,9 @@ import {
   numberOfNumbersInRow,
   sumOfNumbersInColumn,
   sumOfNumbersInRow,
+  getNumberInRow,
+  getNumberInColumn,
+  getNumberInGrouping
 } from './utils';
 
 describe('transform from a string to an Observation', () => {
@@ -48,6 +52,47 @@ describe('transform from a string to an Observation', () => {
     ];
     const val = sumOfNumbersInRow(board, 2);
     expect(val).toEqual(8);
+  });
+  it('should count numbers in the row', () => {
+    const board = [
+      [1, 4, 3, 2],
+      [2, 3, 4, 1],
+      [3, 1, 0, 4],
+      [4, 2, 0, 3],
+    ];
+    const found = getNumberInRow(board, 2, 1);
+    const notFound = getNumberInRow(board, 2, 2);
+    expect(found).toEqual(1);
+    expect(notFound).toEqual(0);
+  });
+  it('should count numbers in the column', () => {
+    const board = [
+      [1, 4, 3, 2],
+      [2, 3, 4, 1],
+      [3, 1, 0, 4],
+      [4, 2, 0, 3],
+    ];
+    const found = getNumberInColumn(board, 2, 3);
+    const notFound = getNumberInColumn(board, 2, 2);
+    expect(found).toEqual(1);
+    expect(notFound).toEqual(0);
+  });
+  it('should count numbers in grouping', () => {
+    const board = [
+      [1, 4, 3, 2],
+      [2, 3, 4, 1],
+      [3, 1, 0, 4],
+      [4, 2, 0, 3],
+    ];
+    const tile: TileValue = {
+      row: 3,
+      col: 3,
+      value: 0
+    }
+    const found = getNumberInGrouping(board, tile, 3);
+    const notFound = getNumberInGrouping(board, tile, 2);
+    expect(found).toEqual(1);
+    expect(notFound).toEqual(0);
   });
   it('should sum the numbers in the column', () => {
     const board = [
